@@ -35,11 +35,10 @@ public class BookController {
 
         List<BookEntity> bookList = IteratorUtils.toList(books.iterator());
 
-        if (bookList != null) {
+        if (bookList != null && !bookList.isEmpty()) {
             Random random = new Random();
             int index = random.nextInt(bookList.size());
             Book randomBook = bookList.get(index);
-
             return new ResponseEntity<Book>(randomBook, HttpStatus.OK);
         } else {
             return new ResponseEntity<Book>(HttpStatus.NOT_FOUND);
