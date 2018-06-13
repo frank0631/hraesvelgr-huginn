@@ -10,24 +10,40 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Random;
+import java.util.List;
+import java.util.Iterator;
+import org.apache.commons.collections4.IteratorUtils;
+
+
 @RestController
-@RequestMapping("/books")
+@RequestMapping("/books/randomBook")
 public class BookController {
 
     @Autowired
     private BookRepository bookRepository;
 
-    @RequestMapping(method = RequestMethod.GET,
-            produces = {MediaType.APPLICATION_JSON_VALUE},
-            consumes = {MediaType.ALL_VALUE})
-    public ResponseEntity<Book> getBookByTitle(
-            @RequestParam(value = "title", required = true) final String title) {
+    @RequestMapping(method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE}, consumes = {MediaType.ALL_VALUE})
+    public ResponseEntity<Book> giveRandomBook(@RequestParam(value = "title", required = false) final String title) {
 
-        Book book = bookRepository.findByTitle(title).iterator().next();
-        if (book != null) {
-            return new ResponseEntity<Book>(book, HttpStatus.OK);
+        Iterable<BookEntity> books;
+        if (title != null) {
+            books = bookRepository.findByTitle(title);
+        } else {
+            books = bookRepository.findAll();
+        }
+
+        List<BookEntity> bookList = IteratorUtils.toList(books.iterator());
+
+        if (bookList != null) {
+            Random random = new Random();
+            int index = random.nextInt(bookList.size());
+            Book randomBook = bookList.get(index);
+
+            return new ResponseEntity<Book>(randomBook, HttpStatus.OK);
         } else {
             return new ResponseEntity<Book>(HttpStatus.NOT_FOUND);
         }
+
     }
 }

@@ -15,6 +15,17 @@ public class BookEntity extends Book {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+    
+    public BookEntity() {
+    }
+
+    public BookEntity(Book book) {
+        super(book);
+    }
+
+    public long getId() {
+        return id;
+    }
 
     @Override
     public String toString() {

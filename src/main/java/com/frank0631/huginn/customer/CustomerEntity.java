@@ -15,7 +15,7 @@ public class CustomerEntity extends Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private String id;
+    private long id;
 
     public CustomerEntity() {
     }
@@ -24,14 +24,12 @@ public class CustomerEntity extends Customer {
         super(customer);
     }
 
-    public String getId() {
+    public long getId() {
         return id;
     }
 
     @Override
     public String toString() {
-        return String.format(
-                "Customer[id=%d, firstName='%s', lastName='%s']",
-                id, getFirstName(), getLastName());
+        return String.format("Customer[id=%d, firstName='%s', lastName='%s']", id, getFirstName(), getLastName());
     }
 }
