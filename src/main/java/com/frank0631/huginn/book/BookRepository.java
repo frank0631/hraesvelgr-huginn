@@ -10,7 +10,7 @@ import java.util.List;
  * Created by frank0631 on 5/12/15.
  */
 @RepositoryRestResource(collectionResourceRel = "books", path = "books")
-public interface BookRepository extends CrudRepository<BookEntity, Long> {
+public interface BookRepository extends CrudRepository<BookEntity, Long>, BookRepositoryCustom {
 
     List<BookEntity> findByTitle(@Param("title")String title);
 }
