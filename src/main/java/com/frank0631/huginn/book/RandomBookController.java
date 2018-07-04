@@ -27,7 +27,7 @@ public class RandomBookController implements ResourceProcessor<RepositorySearche
     @Override
     public RepositorySearchesResource process(RepositorySearchesResource resource) {
         LinkBuilder lb = entityLinks.linkFor(BookEntity.class, "title");
-        resource.add(new Link(lb.toString() + "books/search/getrandombook{?title}", "getrandombook"));
+        resource.add(new Link(lb.toString() + "/search/getrandombook{?title}", "getrandombook"));
         return resource;
     }
 

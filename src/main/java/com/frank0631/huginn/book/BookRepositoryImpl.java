@@ -27,12 +27,15 @@ public class BookRepositoryImpl implements BookRepositoryCustom{
 
     @Override
     public BookEntity giveRandomBook(final String title) {
-        Iterable<BookEntity> books;
-        if (title != null) {
+        Iterable<BookEntity> books = null;
+        if (title != null && !title.isEmpty()) {
             books = bookRepository.findByTitle(title);
-        } else {
-            books = bookRepository.findAll();
+            }
+
+        if (books == null || books.spliterator().getExactSizeIfKnown() == 0 ){
+            	books = bookRepository.findAll();
         }
+
 
         List<BookEntity> bookList = IteratorUtils.toList(books.iterator());
 
