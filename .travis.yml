@@ -1,5 +1,9 @@
 language: java
+sudo: required
 
+services:
+  - docker
+  
 jdk:
   - oraclejdk8
 
@@ -15,5 +19,4 @@ cache:
   - $HOME/.gradle
 
 script:
-  - gradle clean
-  - gradle build
+  - gradle build docker
