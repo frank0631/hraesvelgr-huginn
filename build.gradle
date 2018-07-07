@@ -13,13 +13,17 @@ apply plugin: 'java'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
+def mavenUrl = hasProperty('myMavenRepoReadUrl') ? myMavenRepoReadUrl : System.getenv('myMavenRepoReadUrl')
+def mavenUser = hasProperty('myMavenRepoReadUser') ? myMavenRepoReadUser : System.getenv('myMavenRepoReadUser')
+def mavenPassword = hasProperty('myMavenRepoReadPassword') ? myMavenRepoReadPassword : System.getenv('myMavenRepoReadPassword')
+
 repositories {
     mavenCentral()
     maven {
-        url myMavenRepoReadUrl 
+        url mavenUrl 
         credentials {
-            username = 'myMavenRepo'
-            password = myMavenRepoReadPassword
+            username = mavenUser
+            password = mavenPassword
         }
     }
 }
