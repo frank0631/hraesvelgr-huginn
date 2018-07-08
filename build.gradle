@@ -29,7 +29,7 @@ repositories {
 }
 
 bootJar {
-    baseName = 'huggin'
+    baseName = 'huginn'
     version =  '0.1.0'
 }
 
