@@ -22,5 +22,5 @@ script:
   - gradle build docker
 
 after_success:
-  - docker login -u $DOCKER_USER -p $DOCKER_PASS
+  - docker login -u $DOCKER_USER -p $DOCKER_PASS hub.docker.com
   - gradle dockerPush

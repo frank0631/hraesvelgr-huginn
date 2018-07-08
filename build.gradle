@@ -56,7 +56,7 @@ group = 'frank0631'
 
 docker {
     dependsOn build
-    name "${project.group}/${bootJar.baseName}:version"
+    name "${project.group}/${bootJar.baseName}:${bootJar.version}"
     tags 'latest'
     dockerfile file('Dockerfile')
     files bootJar.archivePath
