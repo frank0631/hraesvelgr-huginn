@@ -56,7 +56,9 @@ group = 'frank0631'
 
 docker {
     dependsOn build
-    name "${project.group}/${bootJar.baseName}"
+    name "hub.docker.com/${project.group}/${bootJar.baseName}:version"
+    tags 'latest'
+    dockerfile file('Dockerfile')
     files bootJar.archivePath
     buildArgs(['JAR_FILE': "${bootJar.archiveName}"])
 }

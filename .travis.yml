@@ -19,4 +19,6 @@ cache:
   - $HOME/.gradle
 
 script:
+  - docker login -u $DOCKER_USER -p $DOCKER_PASS
   - gradle build docker
+  - gradle dockerPush
