@@ -2,15 +2,14 @@ package com.frank0631.huginn.customer;
 
 import com.frank0631.nidhogg.customer.Customer;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+
+import javax.persistence.*;
 
 /**
  * Created by frank0631 on 5/13/15.
  */
 @Entity
+@Table(name = "CUSTOMER")
 public class CustomerEntity extends Customer {
 
     @Id
