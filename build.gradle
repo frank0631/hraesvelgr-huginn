@@ -13,17 +13,17 @@ apply plugin: 'java'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
-def mavenUrl = hasProperty('myMavenRepoReadUrl') ? myMavenRepoReadUrl : System.getenv('myMavenRepoReadUrl')
-def mavenUser = hasProperty('myMavenRepoReadUser') ? myMavenRepoReadUser : System.getenv('myMavenRepoReadUser')
-def mavenPassword = hasProperty('myMavenRepoReadPassword') ? myMavenRepoReadPassword : System.getenv('myMavenRepoReadPassword')
+def _archivaURL = hasProperty('archivaURL') ? archivaURL : System.getenv('archivaURL')
+def _archivaUser = hasProperty('archivaUser') ? archivaUser : System.getenv('archivaUser')
+def _archivaPassword = hasProperty('archivaPassword') ? archivaPassword : System.getenv('archivaPassword')
 
 repositories {
     mavenCentral()
     maven {
-        url mavenUrl 
+        url _archivaURL 
         credentials {
-            username = mavenUser
-            password = mavenPassword
+            username = _archivaUser
+            password = _archivaPassword
         }
     }
 }
