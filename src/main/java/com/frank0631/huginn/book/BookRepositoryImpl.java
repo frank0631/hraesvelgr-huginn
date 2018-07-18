@@ -29,7 +29,7 @@ public class BookRepositoryImpl implements BookRepositoryCustom{
     public BookEntity giveRandomBook(final String title) {
         Iterable<BookEntity> books = null;
         if (title != null && !title.isEmpty()) {
-            books = bookRepository.findByTitle(title);
+            books = bookRepository.findByTitleContaining(title);
             }
 
         if (books == null || books.spliterator().getExactSizeIfKnown() == 0 ){
