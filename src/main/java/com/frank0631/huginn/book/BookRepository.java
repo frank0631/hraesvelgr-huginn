@@ -13,4 +13,6 @@ import java.util.List;
 public interface BookRepository extends CrudRepository<BookEntity, Long>, BookRepositoryCustom {
 
     List<BookEntity> findByTitle(@Param("title")String title);
+    
+    List<BookEntity> findByTitleContaining(@Param("title")String title);
 }
