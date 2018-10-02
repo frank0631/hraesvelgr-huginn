@@ -13,6 +13,7 @@ os:
 branches:
   only:
     - master
+    - h2
 
 cache:
   directories:
