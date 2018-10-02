@@ -89,8 +89,7 @@ task getBranchName(){
 apply plugin: 'com.palantir.docker'
 group = 'frank0631'
 
-//dockerPush.dependsOn anotherTask
-//dockerTag
+tasks.dockerPush.dependsOn { tasks.dockerTag }
 
 docker {
     dependsOn build, getBranchName
