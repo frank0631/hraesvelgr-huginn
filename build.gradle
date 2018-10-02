@@ -47,8 +47,8 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-data-rest:2.0.3.RELEASE")
     compile("org.hibernate:hibernate-core:5.3.2.Final")
     compile("org.hibernate:hibernate-entitymanager:5.3.2.Final")
-    //compile("com.h2database:h2:1.4.197")
-    compile 'mysql:mysql-connector-java'
+    compile("com.h2database:h2:1.4.197")
+    //compile 'mysql:mysql-connector-java'
     
     testCompile("junit:junit")
 }
