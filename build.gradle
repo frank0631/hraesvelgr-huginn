@@ -56,7 +56,9 @@ dependencies {
 }
 
 
-project.ext.branchName = "master"
+project.ext.branchName = "latest"
+project.ext.dockerNameVersion = "latest_tag"
+
 task getBranchName() << {
 	
 	def travis_branch = System.getenv('TRAVIS_BRANCH')
