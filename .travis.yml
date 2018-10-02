@@ -24,4 +24,4 @@ script:
 
 after_success:
   - docker login -u $DOCKER_USER -p $DOCKER_PASS https://index.docker.io/v1/
-  - gradle dockerPush dockerTag
+  - gradle dockerTag dockerPush
