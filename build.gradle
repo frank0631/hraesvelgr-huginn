@@ -6,13 +6,14 @@ buildscript {
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.2.RELEASE")
         classpath("gradle.plugin.com.palantir.gradle.docker:gradle-docker:0.20.1")
-        classpath("org.ajoberstar:gradle-git:1.1.0")
+        classpath("org.ajoberstar:grgit:2.3.0")
     }
 }
 
 apply plugin: 'java'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
+apply plugin: "org.ajoberstar.grgit"
 
 def _archivaURL = hasProperty('archivaURL') ? archivaURL : System.getenv('archivaURL')
 def _archivaUser = hasProperty('archivaUser') ? archivaUser : System.getenv('archivaUser')
@@ -55,13 +56,19 @@ dependencies {
 }
 
 
+project.ext.branchName = "master"
+task getBranchName() << {
+    print grgit.branch.current().name
+    project.ext.set("branchName", grgit.branch.current().name)
+}
+
 apply plugin: 'com.palantir.docker'
 group = 'frank0631'
 
 docker {
     dependsOn build
     name "${project.group}/${bootJar.baseName}"
-    tags "${getWorkingBranch().name}", "${getWorkingBranch().name}+${bootJar.version}"
+    tags "${grgit.branch.current().name}", "${grgit.branch.current().name}+${bootJar.version}"
     dockerfile file('Dockerfile')
     files bootJar.archivePath
     buildArgs(['JAR_FILE': "${bootJar.archiveName}"])
