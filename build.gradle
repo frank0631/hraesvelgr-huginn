@@ -56,7 +56,7 @@ dependencies {
 }
 
 
-project.ext.branchName = "latest"
+project.ext.dockerName = "latest"
 project.ext.dockerNameVersion = "latest_tag"
 
 task getBranchName() << {
