@@ -6,12 +6,14 @@ buildscript {
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.2.RELEASE")
         classpath("gradle.plugin.com.palantir.gradle.docker:gradle-docker:0.20.1")
+        classpath("org.ajoberstar:grgit:2.3.0")
     }
 }
 
 apply plugin: 'java'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
+apply plugin: "org.ajoberstar.grgit"
 
 def _archivaURL = hasProperty('archivaURL') ? archivaURL : System.getenv('archivaURL')
 def _archivaUser = hasProperty('archivaUser') ? archivaUser : System.getenv('archivaUser')
@@ -30,7 +32,7 @@ repositories {
 
 bootJar {
     baseName = 'huginn'
-    version =  '0.1.0'
+    version =  '0.1.1'
 }
 
 sourceCompatibility = 1.8
@@ -54,13 +56,45 @@ dependencies {
 }
 
 
+project.ext.dockerName = "latest"
+project.ext.dockerNameVersion = "latest_tag"
+
+task getBranchName(){
+	
+	def travis_branch = System.getenv('TRAVIS_BRANCH')
+	def git_branch = grgit.branch.current().name
+        
+    if (travis_branch?.trim()) {
+    	if (travis_branch=="master"){
+    		project.ext.set("dockerName", "latest")
+    		project.ext.set("dockerNameVersion", bootJar.version)
+    	}else{
+    		project.ext.set("dockerName", travis_branch)
+    		project.ext.set("dockerNameVersion", travis_branch+"_"+bootJar.version)
+    	}
+	}else{
+		if (git_branch=="master"){
+    		project.ext.set("dockerName", "latest")
+    		project.ext.set("dockerNameVersion", bootJar.version)
+    	}else{
+    		project.ext.set("dockerName", git_branch)
+    		project.ext.set("dockerNameVersion", git_branch+"_"+bootJar.version)
+    	}
+	}
+	
+	println project.dockerName
+	println project.dockerNameVersion      
+}
+
 apply plugin: 'com.palantir.docker'
 group = 'frank0631'
 
+tasks.dockerPush.dependsOn { tasks.dockerTag }
+
 docker {
-    dependsOn build
+    dependsOn build, getBranchName
     name "${project.group}/${bootJar.baseName}"
-    tags 'latest',"${bootJar.version}"
+    tags "${project.dockerName}", "${project.dockerNameVersion}"
     dockerfile file('Dockerfile')
     files bootJar.archivePath
     buildArgs(['JAR_FILE': "${bootJar.archiveName}"])
