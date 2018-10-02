@@ -1,1 +1,1 @@
-build.gradle merge=ours
+build.gradle filter=skip_h2_mysql
