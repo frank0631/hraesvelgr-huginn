@@ -58,17 +58,39 @@ dependencies {
 
 project.ext.branchName = "master"
 task getBranchName() << {
-    print grgit.branch.current().name
-    project.ext.set("branchName", grgit.branch.current().name)
+	
+	def travis_branch = System.getenv('TRAVIS_BRANCH')
+	def git_branch = grgit.branch.current().name
+        
+    if (travis_branch?.trim()) {
+    	if (travis_branch=="master"){
+    		project.ext.set("dockerName", "latest")
+    		project.ext.set("dockerNameVersion", bootJar.version)
+    	}else{
+    		project.ext.set("dockerName", travis_branch)
+    		project.ext.set("dockerNameVersion", travis_branch+"_"+bootJar.version)
+    	}
+	}else{
+		if (git_branch=="master"){
+    		project.ext.set("dockerName", "latest")
+    		project.ext.set("dockerNameVersion", bootJar.version)
+    	}else{
+    		project.ext.set("dockerName", git_branch)
+    		project.ext.set("dockerNameVersion", git_branch+"_"+bootJar.version)
+    	}
+	}
+	
+	println project.dockerName
+	println project.dockerNameVersion      
 }
 
 apply plugin: 'com.palantir.docker'
 group = 'frank0631'
 
 docker {
-    dependsOn build
+    dependsOn build, getBranchName
     name "${project.group}/${bootJar.baseName}"
-    tags "${grgit.branch.current().name}", "${grgit.branch.current().name}+${bootJar.version}"
+    tags "${project.dockerName}", "${project.dockerNameVersion}"
     dockerfile file('Dockerfile')
     files bootJar.archivePath
     buildArgs(['JAR_FILE': "${bootJar.archiveName}"])
