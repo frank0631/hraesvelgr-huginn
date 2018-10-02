@@ -93,7 +93,7 @@ tasks.dockerPush.dependsOn { tasks.dockerTag }
 
 docker {
     dependsOn build, getBranchName
-    name "${project.group}/${bootJar.baseName}:${project.dockerNameVersion}"
+    name "${project.group}/${bootJar.baseName}"
     tags "${project.dockerName}", "${project.dockerNameVersion}"
     dockerfile file('Dockerfile')
     files bootJar.archivePath
