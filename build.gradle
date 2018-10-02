@@ -59,7 +59,7 @@ dependencies {
 project.ext.dockerName = "latest"
 project.ext.dockerNameVersion = "latest_tag"
 
-task getBranchName() << {
+task getBranchName(){
 	
 	def travis_branch = System.getenv('TRAVIS_BRANCH')
 	def git_branch = grgit.branch.current().name
@@ -89,9 +89,12 @@ task getBranchName() << {
 apply plugin: 'com.palantir.docker'
 group = 'frank0631'
 
+//dockerPush.dependsOn anotherTask
+//dockerTag
+
 docker {
     dependsOn build, getBranchName
-    name "${project.group}/${bootJar.baseName}"
+    name "${project.group}/${bootJar.baseName}:${project.dockerNameVersion}"
     tags "${project.dockerName}", "${project.dockerNameVersion}"
     dockerfile file('Dockerfile')
     files bootJar.archivePath
